@@ -14,7 +14,7 @@ class HomeController extends Controller
 {
     public function home()
     {
-        $bookings = Booking::with(['schedule', 'service'])->latest()->get();
+        $bookings = Booking::where('user_id', Auth::user()->id)->with(['schedule', 'service'])->latest()->get();
         return view('pages.frontend.home', compact('bookings'));
     }
 
