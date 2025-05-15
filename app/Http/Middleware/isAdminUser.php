@@ -12,6 +12,7 @@ class IsAdminUser
     {
         if (Auth::check() && Auth::user()->name === 'Admin') {
             return $next($request);
+            //test
         }
 
         return redirect()->route('home')->with('error', 'Anda tidak memiliki akses.');
