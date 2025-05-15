@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Middleware\IsAdminUser;
 
@@ -28,6 +29,9 @@ Route::middleware('auth')->group(function () {
 
     // Semua fitur admin dibuka untuk semua user (sementara)
     Route::get('/dashboard', function () {
+        if(Auth::user()->name !== 'Admin'){
+            return redirect()->route('home')->with('error', 'Anda tidak bisa mengakses halaman ini');
+        }
         return view('dashboard');
     })->middleware(['auth', 'verified'])->name('dashboard');
     Route::resource('users', UserController::class);

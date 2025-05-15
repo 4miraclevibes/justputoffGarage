@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Schedule;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
     public function index()
     {
+        if(Auth::user()->name !== 'Admin'){
+            return redirect()->route('home')->with('error', 'Anda tidak bisa mengakses halaman ini');
+        }
         $schedules = Schedule::orderBy('tanggal')->get();
         return view('pages.backend.schedules.index', compact('schedules'));
     }
